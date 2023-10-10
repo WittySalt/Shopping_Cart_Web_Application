@@ -11,6 +11,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseLazyLoadingProxies().UseSqlServer(conn_str);
 });
 
+// Add services to use sessions
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +30,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+//Enabling session
+app.UseSession();
 
 app.MapControllerRoute(
 	name: "default",
