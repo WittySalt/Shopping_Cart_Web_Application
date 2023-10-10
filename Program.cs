@@ -1,7 +1,15 @@
+using Shopping_Cart_Web_Application_V1._0.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+	var conn_str = builder.Configuration.GetConnectionString("conn_str");
+	options.UseLazyLoadingProxies().UseSqlServer(conn_str);
+});
 
 var app = builder.Build();
 
@@ -23,5 +31,14 @@ app.UseAuthorization();
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
+InitDB(app.Services);
 
 app.Run();
+
+void InitDB(IServiceProvider serviceProvider)
+{
+	using var scope = serviceProvider.CreateScope();
+	ApplicationDbContext db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+	db.Database.EnsureCreated();
+	//db.Database.EnsureDeleted();
+}
