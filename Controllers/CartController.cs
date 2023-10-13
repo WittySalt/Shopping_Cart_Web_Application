@@ -17,14 +17,14 @@ namespace Shopping_Cart_Web_Application_V1._0.Controllers
 			{
 				return Ok(cartCount);
 			}*/
-			return RedirectToAction("Cart");
+			return RedirectToAction("UserCart");
 		}
 		public async Task<IActionResult> RemoveItem(int productId)
 		{
 			var cartCount = await _cartRepository.RemoveItem(productId);
-			return RedirectToAction("Cart");
+			return RedirectToAction("UserCart");
 		}
-		public async Task<IActionResult> GetUserCart()
+		public async Task<IActionResult> UserCart()
 		{
 			var cart = await _cartRepository.GetUserCart();
 			return View(cart);

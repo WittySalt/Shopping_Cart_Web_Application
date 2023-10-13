@@ -20,8 +20,15 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 		public string GetUserId()
 		{
 			string username = _httpContextAccessor.HttpContext.Session.GetString("username");
-			var user = _db.User.FirstOrDefault(a => a.UserName == username);
-			return user.Id.ToString();
+			try
+			{
+				var user = _db.User.FirstOrDefault(a => a.UserName == username);
+				return user.Id.ToString();
+			}
+			catch (Exception ex)
+			{
+				throw new Exception("Invalid User");
+			}
 		}
 		//To get the UserId of User so that can find the unique Cart for him.
 		public async Task<Cart> GetCart(string userId)
