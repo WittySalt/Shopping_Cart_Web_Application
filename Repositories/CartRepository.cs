@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Shopping_Cart_Web_Application_V1._0.Data;
 using Shopping_Cart_Web_Application_V1._0.Models;
 
@@ -7,15 +9,19 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 	public class CartRepository:ICartRepository
 	{
 		private readonly ApplicationDbContext _db;
-		public CartRepository(ApplicationDbContext db) 
+		private readonly IHttpContextAccessor _httpContextAccessor;
+
+		public CartRepository(ApplicationDbContext db, IHttpContextAccessor httpContextAccessor)
 		{
+			_httpContextAccessor = httpContextAccessor;
 			_db = db;
 		}
 		//So far we haven't decide any HttpContext should be added in.
 		public string GetUserId()
 		{
-			string userId = "0";
-			return userId;
+			string username = _httpContextAccessor.HttpContext.Session.GetString("username");
+			var user = _db.User.FirstOrDefault(a => a.UserName == username);
+			return user.Id.ToString();
 		}
 		//To get the UserId of User so that can find the unique Cart for him.
 		public async Task<Cart> GetCart(string userId)
