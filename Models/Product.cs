@@ -13,7 +13,5 @@ namespace Shopping_Cart_Web_Application_V1._0.Models
 		public string? Image {  get; set; }
 		[Required]
 		public double Price { get; set; }
-		public Guid ActivationCode { get; set; }
-
 	}
 }

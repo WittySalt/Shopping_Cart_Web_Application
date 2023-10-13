@@ -9,6 +9,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 		Task<int> AddItem(int productId, int quantity);
 		Task<int> RemoveItem(int productId);
 		Task<Cart> GetCart(string userId);
+		Task<Cart> GetUserCart();
 		Task<int> GetCartItemCount(string userId = "");
 		Task<bool> DoCheckout();
 		string GetUserId();
