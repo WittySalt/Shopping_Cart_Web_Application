@@ -11,6 +11,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Data
 		}
 		public DbSet<Product> Product { get; set; }
 		public DbSet<Cart> Cart { get; set; }
+		public DbSet<CartDetail> CartDetail { get; set; }
 		public DbSet<Order> Order { get; set; }
 		public DbSet<User> User { get; set; }
 		public DbSet<OrderDetail> OrderDetail { get; set; }

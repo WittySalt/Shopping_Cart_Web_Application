@@ -1,34 +1,10 @@
 # Shopping_Cart_Web_Application_V1.0
-Attributes Design:
-The attributes in MVC Models:
-1.Product
-	Id (int)
-	ProductName (string)
-	ProductDescription (string)
-	Image (string)
-	Price (double)
-	ActivationCode (Guid)
-
-2.Cart
-	Id (int)
-	UserId (string)
-	ProductId (int)
-	Quantity (int)
-	UnitPrice (double)
-	Product (Product)
-
-3.Order
-	Id (int)
-	UserId (string)
-	CreateDate (DateTime)
-	IsDeleted (bool)
-	OrderDetails (List<OrderDetail>)
-
-4.OrderDetail
-	Id (int)
-	OrderId (int)
-	ProductId (int)
-	Quantity (int)
-	Order (Order)
-	Product (Product)
-	
+This is the Shopping Cart Web Application designed by NUS-ISS GDipSA57 Team 4. Our team members include Dian, Chenyi, Ruixian, Zhu Yi, Yibai, Li Hao.
+In this CA project, we create a Shopping Cart web application using ASP.NET. The core functionalities involve are:
+1. Login / Logout
+2. Browse
+3. Search
+4. Cart
+5. Activation Codes Management
+6. Purchase History
+Hopefully you can see our program running well :)!
