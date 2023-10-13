@@ -1,6 +1,5 @@
 using Shopping_Cart_Web_Application_V1._0.Data;
 using Microsoft.EntityFrameworkCore;
-using Shopping_Cart_Web_Application_V1._0.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
