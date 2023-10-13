@@ -24,6 +24,20 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 			return cart;
 		}
 		//To get the unique Cart.
+		public async Task<Cart> GetUserCart()
+		{
+			var userId = GetUserId();
+			if (userId == null)
+			{
+				throw new Exception("Invalid UserId");
+			}
+			var cart = await _db.Cart
+							.Include(a => a.CartDetail)
+							.ThenInclude(a => a.Product)
+							.Where(a => a.UserId == userId)
+							.FirstOrDefaultAsync();
+			return cart;
+		}
 		public async Task<int> GetCartItemCount(string userId = "")
 		{
 			if(!string.IsNullOrEmpty(userId))
@@ -160,14 +174,17 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 				_db.SaveChanges();
 				foreach (var item in cartDetail)
 				{
-					var orderDetail = new OrderDetail
+					for (int i = 0; i < item.Quantity; i++)
 					{
-						ProductId = item.ProductId,
-						OrderId = order.Id,
-						Quantity = item.Quantity,
-						UnitPrice = item.UnitPrice
-					};
-					_db.OrderDetail.Add(orderDetail);
+						var orderDetail = new OrderDetail
+						{
+							ProductId = item.ProductId,
+							OrderId = order.Id,
+							UnitPrice = item.UnitPrice,
+							ActivationCode = new Guid()
+						};
+						_db.OrderDetail.Add(orderDetail);
+					}
 				}
 				_db.SaveChanges();
 

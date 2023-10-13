@@ -12,7 +12,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Models
 		public int ProductId { get; set; }
 		public int Quantity { get; set; }
 		public double UnitPrice { get; set; }
-		public Product Product { get; set; }
-		public Cart Cart { get; set; }
+		public virtual Product Product { get; set; }
+		public virtual Cart Cart { get; set; }
 	}
 }

@@ -8,6 +8,6 @@ namespace Shopping_Cart_Web_Application_V1._0.Models
 	{
 		public int Id { get; set; }
 		public string UserId { get; set; }
-		public ICollection<CartDetail> CartDetail { get; set; }
+		public virtual ICollection<CartDetail> CartDetail { get; set; }
 	}
 }
