@@ -1,5 +1,6 @@
 using Shopping_Cart_Web_Application_V1._0.Data;
 using Microsoft.EntityFrameworkCore;
+using Shopping_Cart_Web_Application_V1._0.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+//Middleware to track if user is logged in
+//app.UseMiddleware<TrackLoginMiddleware>();
 
 //Enabling session
 app.UseSession();
