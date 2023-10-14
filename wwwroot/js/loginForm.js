@@ -1,28 +1,49 @@
-﻿let uname_elem, pword_elem;
+﻿let uname_elem, pword_elem, form_elem, msg_elem;
 
 window.onload = function () {
 
-    let form_elem = document.getElementById("loginForm");
-    if (!form_elem) {
+    form_elem = document.getElementById("loginForm");
+    msg_elem = document.getElementById("msg");
+
+    if (!form_elem || !msg_elem) {
         return;
     }
-    form.addEventListener("submit", formSubmit);
+
+    uname_elem = document.getElementById("username");
+    pword_elem = document.getElementById("password");
+
+    form_elem.addEventListener("submit", formSubmit);
 }
 
+function formSubmit(event) {
+
+    showMsg(false, '');
+
+    let username = uname_elem.value;
+    let password = pword_elem.value;
+
+    if (!username || !password) {
+        showMsg(true, "Please enter a valid username or password.");
+        event.preventDefault();
+    }
+    else {
+        this.submit();}
+}
 
 function showMsg(isVisible, msg) {
-    let msg_elem = document.getElementById("msg");
+    msg_elem.innerHTML = '';
 
-    if (!msg_elem) {
-        return;
+    if (isVisible) {
+        var alertDiv = document.createElement('div');
+        alertDiv.classList.add('alert', 'alert-danger');
+        alertDiv.textContent = msg;
+
+        msg_elem.appendChild(alertDiv);
+
+        msg_elem.style.display = 'block';
     }
-
+    else {
+        msg_elem.style.display = 'none';
+    }
+    
 }
-
-
-//uname_elem = document.getElementById("username");
-        //pword_elem = document.getElementById("password");
-        //if (uname_elem.value == "" || pword_elem.value =="") {
-        //    event.preventDefault();
-        //    alert("Please enter a valid username or password.");
-        //}
