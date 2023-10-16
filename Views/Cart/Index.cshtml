@@ -1,0 +1,33 @@
+﻿@model List<Product>  <!-- Adjust the model based on your Product class -->
+
+<h1>Search Results</h1>
+
+@if (ViewBag.NoProductsFound)
+{
+    <div style="color:red;">Input again.</div>
+}
+
+<ul>
+    @foreach (var product in Model)
+    {
+        <li>@product.ProductName</li>
+    }
+</ul>
+
+<script>
+    function search() {
+        var searchString = document.getElementById('searchString').value;
+
+        // Check if the search string is empty or contains only whitespace
+        if (!searchString.trim()) {
+            // Show the error message
+            document.getElementById('searchErrorMessage').style.display = 'block';
+        } else {
+            // Hide the error message
+            document.getElementById('searchErrorMessage').style.display = 'none';
+
+            // Send the search request
+            // ...
+        }
+    }
+</script>
