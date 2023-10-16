@@ -1,1 +1,36 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
 
+namespace Search1.Controllers
+{
+    public class CartController : Controller
+    {
+        //这里的dbcontext确认一下
+        private readonly ApplicationDbContext _dbContext;
+
+        public CartController(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public IActionResult Index(String searchString)
+        {
+            List<Product> products;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                products = _dbContext.Products
+                .Where(p => p.ProductName.Contains(searchString))
+                .ToList();
+            }
+            else
+            {
+                products = _dbContext.Products.ToList();
+            }
+
+            ViewBag.NoProductsFound = products.Count == 0;
+
+            return View(products);
+        }
+    }
+}
