@@ -1,5 +1,6 @@
 using Shopping_Cart_Web_Application_V1._0.Data;
 using Microsoft.EntityFrameworkCore;
+using Shopping_Cart_Web_Application_V1._0.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Add services to use sessions
 builder.Services.AddSession();
+builder.Services.AddTransient<ICartRepository, CartRepository>();
 
 var app = builder.Build();
 

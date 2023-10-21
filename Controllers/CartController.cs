@@ -24,7 +24,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Controllers
 			var cartCount = await _cartRepository.RemoveItem(productId);
 			return RedirectToAction("Cart");
 		}
-		public async Task<IActionResult> GetUserCart()
+		public async Task<IActionResult> Cart()
 		{
 			var cart = await _cartRepository.GetUserCart();
 			return View(cart);
