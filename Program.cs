@@ -15,6 +15,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Add services to use sessions
 builder.Services.AddSession();
 builder.Services.AddTransient<ICartRepository, CartRepository>();
+builder.Services.AddTransient<IGalleryRepository, GalleryRepository>();
+builder.Services.AddTransient<IPurchaseHistoryRepository, PurchaseHistoryRepository>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -37,6 +40,7 @@ app.UseAuthorization();
 //app.UseMiddleware<TrackLoginMiddleware>();
 
 //Enabling session
+
 app.UseSession();
 
 app.MapControllerRoute(

@@ -1,0 +1,62 @@
+﻿@model Shopping_Cart_Web_Application_V1._0.Models.DTOs.PurchaseHistoryViewModel
+
+<div class="my-2">
+    <form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="input-group">
+            <label class="visually-hidden" for="sterm">Search Name</label>
+            <div class="col-auto">
+                <input type="text" class="form-control" value="@Model.STerm" id="sterm" name="sterm" placeholder="Search by title">
+            </div>
+            <button type="submit" class="btn btn-outline-secondary">Search</button>
+            <a href="/PurchaseHistory" class="btn btn-dark">Reset</a>
+        </div>
+    </form>
+</div>
+<h2>Your Purchase History</h2>
+
+@if (Model.Order == null || !Model.Order.Any())
+{
+    <p>You have no purchase history.</p>
+}   
+else
+{
+    foreach (var order in Model.Order)
+    {
+        var displayedProductNames = new HashSet<string>();
+        <div class="card" style="margin-bottom: 20px;">
+            <h5 class="card-header">Order Date: @order.CreateDate</h5>
+            @foreach (var orderDetail in order.OrderDetail)
+            {
+                if (!displayedProductNames.Contains(orderDetail.Product.ProductName))
+                {
+                    displayedProductNames.Add(orderDetail.Product.ProductName);
+
+                    // Collect all ActivationCodes for the current product
+                    var activationCodesForProduct = order.OrderDetail
+                    .Where(od => od.Product.ProductName == orderDetail.Product.ProductName)
+                    .Select(od => od.ActivationCode)
+                    .ToList();
+
+                    <div class="card-body" style=" display: flex;align-items: center;">
+                        <img style="margin-right: 10px;width: 100px;height: 100px;object-fit: cover;" src="/images/@orderDetail.Product.Image" alt="@orderDetail.Product.ProductName" />
+                        <h5 class="card-title">@orderDetail.Product.ProductName</h5> <!-- Accessing ProductName of the Product -->
+                        <p class="card-text">
+                            Price: @orderDetail.UnitPrice <br />
+                            Activation Code:
+                            <select>
+                                @foreach (var code in activationCodesForProduct)
+                                {
+                                    <option value="@code">@code</option>
+                                }
+                            </select>
+                        </p>
+                    </div>
+                    if (displayedProductNames.Count != order.OrderDetail.Select(od => od.Product.ProductName).Distinct().Count())
+                    {
+                        <hr />
+                    }
+                }
+            }
+        </div>
+    }
+}

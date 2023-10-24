@@ -12,6 +12,6 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 		Task<Cart> GetUserCart();
 		Task<int> GetCartItemCount(string userId = "");
 		Task<bool> DoCheckout();
-		string GetUserId();
+		Task<string> GetUserId();
 	}
 }

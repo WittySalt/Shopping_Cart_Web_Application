@@ -10,22 +10,26 @@ namespace Shopping_Cart_Web_Application_V1._0.Controllers
 		{
 			_cartRepository = cartRepository;
 		}
-		public async Task<IActionResult> AddItem(int productId, int quantity = 1 /*int redirect = 0*/)
+		public async Task<IActionResult> AddItem(int productId, int quantity = 1, int redirect = 0)
 		{
 			var cartCount = await _cartRepository.AddItem(productId, quantity);
-			/*if (redirect == 0)
+			if (redirect == 0)
 			{
 				return Ok(cartCount);
-			}*/
-			return RedirectToAction("Cart");
+			}
+			return RedirectToAction("Index");
 		}
 		public async Task<IActionResult> RemoveItem(int productId)
 		{
 			var cartCount = await _cartRepository.RemoveItem(productId);
-			return RedirectToAction("Cart");
+			return RedirectToAction("Index");
 		}
-		public async Task<IActionResult> Cart()
+		public async Task<IActionResult> Index()
 		{
+			if (await _cartRepository.GetUserId() == null)
+			{
+				return RedirectToAction("Index", "Login");
+			}
 			var cart = await _cartRepository.GetUserCart();
 			return View(cart);
 		}
@@ -39,7 +43,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Controllers
 			bool isCheckedOut = await _cartRepository.DoCheckout();
 			if (!isCheckedOut)
 				throw new Exception("Something happen in server side");
-			return RedirectToAction("Index", "PurchasedHistory");
+			return RedirectToAction("Index", "PurchaseHistory");
 		}
 	}
 }

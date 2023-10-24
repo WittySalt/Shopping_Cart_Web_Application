@@ -36,7 +36,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Controllers
             //Check username & password input
             if(username !=null && password != null)
             {
-                User checkUser = db.User.FirstOrDefault(x => x.UserName == username && x.Password == password);
+                User? checkUser = db.User.FirstOrDefault(x => x.UserName == username && x.Password == password);
                 //string checkUser = "Pinata";
                 //string checkPw = "test123";
 
@@ -65,7 +65,11 @@ namespace Shopping_Cart_Web_Application_V1._0.Controllers
             // redirect page to Gallery
             return RedirectToAction("Index", "Gallery");
         }
-
- 
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("username");
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
+        }
     }
 }

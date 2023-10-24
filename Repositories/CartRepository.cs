@@ -7,16 +7,29 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 	public class CartRepository:ICartRepository
 	{
 		private readonly ApplicationDbContext _db;
-		public CartRepository(ApplicationDbContext db) 
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public CartRepository(ApplicationDbContext db, IHttpContextAccessor httpContextAccessor) 
 		{
+			_httpContextAccessor = httpContextAccessor;
 			_db = db;
 		}
 		//So far we haven't decide any HttpContext should be added in.
-		public string GetUserId()
+		public async Task<string> GetUserId()
 		{
-			string userId = "0";
-			return userId;
-		}
+			var username = _httpContextAccessor.HttpContext.Session.GetString("username");
+            var user = await _db.User
+                    .Where(u => u.UserName == username)
+                    .FirstOrDefaultAsync();
+
+            if (user != null)
+            {
+                return user.Id.ToString();
+            }
+            else
+            {
+                return null;
+            }
+        }
 		//To get the UserId of User so that can find the unique Cart for him.
 		public async Task<Cart> GetCart(string userId)
 		{
@@ -26,7 +39,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 		//To get the unique Cart.
 		public async Task<Cart> GetUserCart()
 		{
-			var userId = GetUserId();
+			var userId = await GetUserId();
 			if (userId == null)
 			{
 				throw new Exception("Invalid UserId");
@@ -42,7 +55,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 		{
 			if(!string.IsNullOrEmpty(userId))
 			{
-				userId = GetUserId();
+				userId = await GetUserId();
 			}
 			var data = await (from cart in _db.Cart
 							  join cartDetail in _db.CartDetail
@@ -53,7 +66,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 		//To get the amount of added cartItem in Cart (the kind of products)
 		public async Task<int> AddItem(int productId, int quantity)
 		{
-			string userId = GetUserId();
+			string userId = await GetUserId();
 			using var transaction = _db.Database.BeginTransaction();
 			//Begin the database transaction
 			try
@@ -102,7 +115,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 		//Add Item to the Cart
 		public async Task<int> RemoveItem(int productId)
 		{
-			string userId = GetUserId();
+			string userId = await GetUserId();
 			//using var transaction = _db.Database.BeginTransaction();
 			//As long as you can remove the Item, you must have added something already.
 			try
@@ -148,7 +161,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 			using var transaction = _db.Database.BeginTransaction();
 			try
 			{
-				var userId = GetUserId();
+				var userId = await GetUserId();
 				if (string.IsNullOrEmpty(userId))
 				{
 					throw new Exception("User Logged out");
@@ -168,7 +181,6 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 				{
 					UserId = userId,
 					CreateDate = DateTime.UtcNow,
-					//OrderStatusId = 1//pending
 				};
 				_db.Order.Add(order);
 				_db.SaveChanges();
@@ -181,7 +193,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 							ProductId = item.ProductId,
 							OrderId = order.Id,
 							UnitPrice = item.UnitPrice,
-							ActivationCode = new Guid()
+							ActivationCode = Guid.NewGuid()
 						};
 						_db.OrderDetail.Add(orderDetail);
 					}
