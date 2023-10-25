@@ -42,10 +42,10 @@
                     <ul class="navbar-nav ms-auto">
                         @if (Context.Session.GetString("username") != null)
                         {
-                            <li class="nav-item">
-                                <span class="navbar-text text-dark">Hello, @Context.Session.GetString("username")!</span>
+                            <li class="nav-item d-flex align-items-center">
+                                <span class="navbar-text text-dark"><u>Hello, @Context.Session.GetString("username")!</u></span>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item d-flex align-items-center">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
                             </li>
                         }
@@ -73,7 +73,6 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

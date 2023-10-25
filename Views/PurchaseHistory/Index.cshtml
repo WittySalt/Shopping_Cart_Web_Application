@@ -1,6 +1,21 @@
 ﻿@model Shopping_Cart_Web_Application_V1._0.Models.DTOs.PurchaseHistoryViewModel
 
-<div class="my-2">
+<style>
+    .flex-card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%; /* 确保卡片主体高度充分，撑满容器 */
+    }
+
+    #sterm {
+        width: 500px; /* 调整这个值以改变搜索框的长度 */
+    }
+</style>
+
+<h1 class ="mt-3 mb-4">Your Purchase History</h1>
+
+<div class="my-2 mb-4">
     <form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center">
         <div class="input-group">
             <label class="visually-hidden" for="sterm">Search Name</label>
@@ -12,7 +27,6 @@
         </div>
     </form>
 </div>
-<h2>Your Purchase History</h2>
 
 @if (Model.Order == null || !Model.Order.Any())
 {
@@ -23,8 +37,12 @@ else
     foreach (var order in Model.Order)
     {
         var displayedProductNames = new HashSet<string>();
+        var totalAmount = order.OrderDetail.Sum(od => od.UnitPrice);
         <div class="card" style="margin-bottom: 20px;">
-            <h5 class="card-header">Order Date: @order.CreateDate</h5>
+            <h5 class="card-header d-flex justify-content-between">
+                <span>Order Date: @order.CreateDate</span>
+                <span>Total: $@totalAmount.ToString("F2")</span>
+            </h5>
             @foreach (var orderDetail in order.OrderDetail)
             {
                 if (!displayedProductNames.Contains(orderDetail.Product.ProductName))
@@ -38,19 +56,34 @@ else
                     .ToList();
 
                     <div class="card-body" style=" display: flex;align-items: center;">
-                        <img style="margin-right: 10px;width: 100px;height: 100px;object-fit: cover;" src="/images/@orderDetail.Product.Image" alt="@orderDetail.Product.ProductName" />
-                        <h5 class="card-title">@orderDetail.Product.ProductName</h5> <!-- Accessing ProductName of the Product -->
-                        <p class="card-text">
-                            Price: @orderDetail.UnitPrice <br />
-                            Activation Code:
-                            <select>
-                                @foreach (var code in activationCodesForProduct)
-                                {
-                                    <option value="@code">@code</option>
-                                }
-                            </select>
-                        </p>
-                    </div>
+                        <div class="row">
+                            <div class="col" style="display: flex; flex: 0 0 100px; align-items: center;">
+                                <img style="margin-right: 10px;width: 100px;height: 100px;object-fit: cover;" src="/images/@orderDetail.Product.Image" alt="@orderDetail.Product.ProductName" />
+                            </div>
+                            <div class="col" style="display: flex; flex: 0 0 200px; align-items: center;">
+                                <h5 class="card-title" style="max-width:250px">@orderDetail.Product.ProductName</h5>
+                            </div>
+                            <div class="col" style="display: flex; flex: 0 0 150px; align-items: center;">
+                                <p class="card-text">
+                                    UnitPrice: @orderDetail.UnitPrice
+                                </p>
+                            </div>
+                            <div class="col" style="display: flex; flex: 0 0 150px; align-items: center;">
+                                <p class="card-text">Quantity: @activationCodesForProduct.Count()</p>
+                            </div>
+                            <div class="col" style="display: flex; align-items: center;">
+                                <p class="card-text">
+                                    Activation Code:
+                                    <select>
+                                        @foreach (var code in activationCodesForProduct)
+                                        {
+                                            <option value="@code">@code</option>
+                                        }
+                                    </select>
+                                </p>
+                            </div>
+                        </div>
+                    </div>                   
                     if (displayedProductNames.Count != order.OrderDetail.Select(od => od.Product.ProductName).Distinct().Count())
                     {
                         <hr />

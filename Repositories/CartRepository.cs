@@ -53,7 +53,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 		}
 		public async Task<int> GetCartItemCount(string userId = "")
 		{
-			if(!string.IsNullOrEmpty(userId))
+			if(string.IsNullOrEmpty(userId))
 			{
 				userId = await GetUserId();
 			}
@@ -145,18 +145,39 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 					cartItem.Quantity--;
 				}
 				_db.SaveChanges();
-				//transaction.Commit();
 			}
 			catch (Exception ex)
 			{
-				// Rollback the data if ex exists. Or just ignore this
-				//transaction.Rollback();
+
 			}
 			var cartItemCount = await GetCartItemCount(userId);
 			return cartItemCount;
 		}
-		//Remove Item from the Cart.
-		public async Task<bool> DoCheckout()
+        //Remove Item from the Cart.
+        public async Task<CartDetail> UpdateQuantityAsync(int productId, int quantity)
+        {
+            string userId = await GetUserId();
+            var userCartId = _db.Cart.FirstOrDefault(u => u.UserId == userId)?.Id;
+            var cartDetail = await _db.CartDetail
+                                               .FirstOrDefaultAsync(cd => cd.ProductId == productId && cd.CartId == userCartId);
+
+            if (cartDetail != null)
+            {
+                if (quantity == 0)
+                {
+                    _db.CartDetail.Remove(cartDetail);
+                }
+                else
+                {
+                    cartDetail.Quantity = quantity;
+                }
+
+                await _db.SaveChangesAsync();
+            }
+
+            return cartDetail;
+        }
+        public async Task<DateTime?> DoCheckout()
 		{
 			using var transaction = _db.Database.BeginTransaction();
 			try
@@ -204,11 +225,11 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 				_db.CartDetail.RemoveRange(cartDetail);
 				_db.SaveChanges();
 				transaction.Commit();
-				return true;
-			}
+                return order.CreateDate;
+            }
 			catch (Exception)
 			{
-				return false;
+				return null;
 			}
 		}
 	}

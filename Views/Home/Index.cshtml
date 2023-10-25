@@ -1,13 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
+<div class="text-center m">
     <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Learn about <a href="Home/Aboutus">us and this website</a>.</p>
 </div>
 
-<div id="carouselExampleIndicators" class="carousel slide">
+<section>
+    <p>
+        Welcome to GDipSA57 Team 4<strong> ASP.NET Online Shop</strong>, your one-stop destination for all your online shopping needs. Built using the power of ASP.NET, we aim to provide a seamless and efficient shopping experience.
+    </p>
+    <p>
+        Whether you're looking for the latest fashion trends or tech gadgets, we've got you covered. With our user-friendly interface, vast product selection, and efficient delivery system, shopping has never been this easy.
+    </p>
+</section>
+
+<div id="carouselExampleIndicators" class="carousel slide mt-4">
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
@@ -33,3 +41,21 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+
+<section class="mt-4">
+    <h2>Why Choose US?</h2>
+    <ul>
+        <li><strong>Quality Products:</strong> We source our products from the best suppliers ensuring high-quality items.</li>
+        <li><strong>Secure Transactions:</strong> With our state-of-the-art security features, your transactions are always safe.</li>
+        <li><strong>Fast Teaching:</strong> Our efficient logistics team ensures that you learn your lessons on time.</li>
+        <li><strong>Customer Support:</strong> Facing issues? Our 24/7 customer support is here to help.</li>
+        <li><strong>Private Teacher:</strong> Let your study and plan personalized. See more about <a href="Home/Privacy">here</a></li>
+    </ul>
+</section>
+
+<section class="mt-4">
+    <h2>Get Started!</h2>
+    <p>
+        Ready to dive into the world of online shopping? Sign in now and explore our vast collection.<a href="/Gallery/Index">View Now!</a>
+    </p>
+</section>
