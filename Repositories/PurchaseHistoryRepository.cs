@@ -44,7 +44,8 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
                                                (string.IsNullOrWhiteSpace(sTerm) || order.OrderDetail.Any(od => od.Product.ProductName.ToLower().Contains(sTerm)))
                                                select order).Include(o => o.OrderDetail)
                                                             .ThenInclude(od => od.Product)
-                                                            .Where(o => o.UserId == userId) // Include OrderDetail in the result
+                                                            .Where(o => o.UserId == userId)
+                                                            .OrderByDescending(o => o.CreateDate)
                                                             .ToListAsync();
             return orders.ToList();
         }

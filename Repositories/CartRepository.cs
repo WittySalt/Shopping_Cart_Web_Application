@@ -60,7 +60,8 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 			var data = await (from cart in _db.Cart
 							  join cartDetail in _db.CartDetail
 							  on cart.Id equals cartDetail.CartId
-							  select new {cartDetail.Id}).ToListAsync();
+                              where cart.UserId == userId
+                              select new {cartDetail.Id}).ToListAsync();
 			return data.Count;
 		}
 		//To get the amount of added cartItem in Cart (the kind of products)

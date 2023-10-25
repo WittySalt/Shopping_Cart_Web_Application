@@ -23,10 +23,14 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Gallery" asp-action="Index">Gallery</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="PurchaseHistory" asp-action="Index">Purchase History</a>
+                        </li>
+                        <li class="nav-item" style="display: flex; align-items: center;">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
+                             @if (Context.Session.GetString("username") != null)
+                            {
+                                <span class="badge bg-danger" id="cartCount" style="margin-left: 5px;">0</span>
+                            }
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More</a>
@@ -73,7 +77,30 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        loadCartCount();
+    });
+    window.addEventListener('pageshow', (event) => {
+        loadCartCount();
+    });
+    async function loadCartCount() {
+        try {
+            var response = await fetch(`/Cart/GetTotalItemInCart`);
+            console.log(response)
+            if (response.status == 200) {
+                var result = await response.json();
+                var cartCountEl = document.getElementById("cartCount");
+                cartCountEl.innerHTML = result;
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+</script>
 </html>
