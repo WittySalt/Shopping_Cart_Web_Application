@@ -128,7 +128,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Models
                         Price = 599.99
                     }
                 );
-                context.Cart.AddRange(
+                /*context.Cart.AddRange(
                     new Cart
                     {
                         UserId = "c7b4d3b5-e0ec-49e3-8d5f-97d6a42e7be7"
@@ -321,7 +321,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Models
                         UnitPrice = 648.99,
                         ActivationCode = new Guid("20136DF8-44B5-46A9-BA52-18B96B3D931C")
                     }
-                );
+                );*/
                 context.SaveChanges();
             }
         }
