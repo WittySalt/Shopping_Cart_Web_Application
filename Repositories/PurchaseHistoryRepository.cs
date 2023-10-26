@@ -41,7 +41,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
             sTerm = sTerm.ToLower();
             IEnumerable<Order> orders = await (from order in _db.Order
                                                where order.UserId == userId && 
-                                               (string.IsNullOrWhiteSpace(sTerm) || order.OrderDetail.Any(od => od.Product.ProductName.ToLower().Contains(sTerm)))
+                                               (string.IsNullOrWhiteSpace(sTerm) || order.OrderDetail.Any(od => od.Product.ProductName.ToLower().Contains(sTerm)) || order.CreateDate.ToString().Contains(sTerm))
                                                select order).Include(o => o.OrderDetail)
                                                             .ThenInclude(od => od.Product)
                                                             .Where(o => o.UserId == userId)

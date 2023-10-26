@@ -54,7 +54,7 @@
 	}
 	else
 	{
-        <h1 class ="mt-5 text-center">Ops! Cart is Empty! <a href="Gallery/Index">Go to pick something!</a></h1>
+        <h1 class ="mt-5 text-center">Ops! Cart is Empty! <a href="Gallery">Go to pick something!</a></h1>
 	}
 </div>
 
@@ -79,7 +79,7 @@
                     if (response.success) {
                         var quantityElement = document.getElementById('itemQuantity_' + productId);
                         if (response.newTotalQuantity == 0) { // Check if the cart is empty now
-                            document.getElementById('cartContainer').innerHTML = ' <h1 class ="mt-5 text-center">Ops! Cart is Empty! <a href="Gallery/Index">Go to pick something!</a></h1>';
+                            document.getElementById('cartContainer').innerHTML = ' <h1 class ="mt-5 text-center">Ops! Cart is Empty! <a href="Gallery">Go to pick something!</a></h1>';
                         } else if (quantity != 0) {
                             // Update the item total and cart total as before
                             quantityElement.innerText = quantity;
