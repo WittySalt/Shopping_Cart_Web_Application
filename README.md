@@ -9,3 +9,9 @@ To whoever wants to use this Application, please use these accounts:
 	-username:John
 	-password:123456
 
+Use notification:
+1.Change the 'appsetting.json'file, where 'Server=*****' should be your database path. For example, mine is 'Server=LAPTOP-FQMVG2NK'
+2.!!Update database first!! Try use 'Update-database' in the Nuget Console before you try to run this program!!!
+3.We already added SeedData in the program. So you can see the example in the program.
+4.Enjoy~
+

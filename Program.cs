@@ -1,4 +1,5 @@
 using Shopping_Cart_Web_Application_V1._0.Data;
+using Shopping_Cart_Web_Application_V1._0.Models;
 using Microsoft.EntityFrameworkCore;
 using Shopping_Cart_Web_Application_V1._0.Repositories;
 
@@ -20,6 +21,13 @@ builder.Services.AddTransient<IPurchaseHistoryRepository, PurchaseHistoryReposit
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+//Add SeedData
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

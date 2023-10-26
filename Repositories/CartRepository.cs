@@ -202,7 +202,7 @@ namespace Shopping_Cart_Web_Application_V1._0.Repositories
 				var order = new Order
 				{
 					UserId = userId,
-					CreateDate = DateTime.UtcNow,
+					CreateDate = DateTime.Now,
 				};
 				_db.Order.Add(order);
 				_db.SaveChanges();
